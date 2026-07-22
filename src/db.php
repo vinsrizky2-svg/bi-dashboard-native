@@ -18,10 +18,10 @@ function getDB(): PDO {
             PDO::ATTR_EMULATE_PREPARES   => false,
         ]);
     } catch (PDOException $e) {
+        error_log('[db.php] Koneksi database gagal: ' . $e->getMessage());
         http_response_code(500);
         die(json_encode([
-            'error'  => 'Koneksi database gagal.',
-            'detail' => $e->getMessage(),
+            'error' => 'Koneksi database gagal. Silakan coba lagi nanti.',
         ]));
     }
 

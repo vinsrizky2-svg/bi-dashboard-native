@@ -45,9 +45,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                    ->execute([':name'=>$name,':email'=>$email,':password'=>$hash,':role'=>$role]);
                 $success = "Akun <strong>{$email}</strong> berhasil ditambahkan.";
             } catch (PDOException $e) {
+                error_log('[manage_users.php] Insert user gagal: ' . $e->getMessage());
                 $error = str_contains($e->getMessage(), 'unique')
                     ? 'Email sudah digunakan.'
-                    : 'Gagal: ' . $e->getMessage();
+                    : 'Terjadi kesalahan. Silakan coba lagi.';
             }
         }
     }
@@ -239,8 +240,8 @@ ob_start();
 
 <style>
 .alert-success,.alert-error{padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:13px}
-.alert-success{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#6ee7b7}
-.alert-error{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.18);color:#fca5a5}
+.alert-success{background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.2);color:#059669}
+.alert-error{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.18);color:#dc2626}
 .user-form .form-row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
 .user-form .form-col{flex:1 1 160px;display:flex;flex-direction:column;gap:5px}
 .user-form .form-col-btn{flex:0 0 auto}
@@ -256,20 +257,20 @@ ob_start();
 .user-table tr:hover td{background:var(--bg-card-hover)}
 .row-inactive td{opacity:.45}
 .badge{display:inline-block;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600}
-.badge-admin{background:rgba(59,130,246,.12);color:#93c5fd}
-.badge-manager{background:rgba(201,168,76,.12);color:#e8c97a}
-.badge-staff{background:rgba(148,163,184,.1);color:#94a3b8}
-.badge-active{background:rgba(16,185,129,.1);color:#6ee7b7}
-.badge-inactive{background:rgba(239,68,68,.08);color:#fca5a5}
+.badge-admin{background:rgba(26,86,219,.1);color:#1a56db}
+.badge-manager{background:rgba(201,150,42,.12);color:#a1791f}
+.badge-staff{background:rgba(71,85,105,.1);color:#475569}
+.badge-active{background:rgba(5,150,105,.1);color:#059669}
+.badge-inactive{background:rgba(220,38,38,.08);color:#dc2626}
 .btn-sm{padding:5px 10px;border-radius:6px;font-size:11.5px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap}
 .btn-outline{background:transparent;border-color:var(--border-strong);color:var(--text-secondary)}
-.btn-outline:hover{border-color:var(--cobalt);color:var(--cobalt-light);background:var(--cobalt-dim)}
-.btn-warn{background:rgba(245,158,11,.07);border-color:rgba(245,158,11,.2);color:#fcd34d}
-.btn-warn:hover{background:rgba(245,158,11,.14)}
-.btn-success{background:rgba(16,185,129,.07);border-color:rgba(16,185,129,.2);color:#6ee7b7}
-.btn-success:hover{background:rgba(16,185,129,.14)}
-.btn-danger{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.18);color:#fca5a5}
-.btn-danger:hover{background:rgba(239,68,68,.14)}
+.btn-outline:hover{border-color:var(--cobalt);color:var(--cobalt);background:var(--cobalt-dim)}
+.btn-warn{background:rgba(217,119,6,.08);border-color:rgba(217,119,6,.25);color:#b45309}
+.btn-warn:hover{background:rgba(217,119,6,.16)}
+.btn-success{background:rgba(5,150,105,.08);border-color:rgba(5,150,105,.25);color:#059669}
+.btn-success:hover{background:rgba(5,150,105,.16)}
+.btn-danger{background:rgba(220,38,38,.08);border-color:rgba(220,38,38,.22);color:#dc2626}
+.btn-danger:hover{background:rgba(220,38,38,.16)}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -284,10 +285,6 @@ function resetPassword(userId, email) {
     showCancelButton: true,
     confirmButtonText: 'Reset',
     cancelButtonText: 'Batal',
-    confirmButtonColor: '#3b82f6',
-    cancelButtonColor: '#374151',
-    background: '#111520',
-    color: '#f1f5f9',
     preConfirm: function(val) {
       if (!val || val.length < 6) Swal.showValidationMessage('Password minimal 6 karakter');
       return val;

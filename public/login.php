@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
         } catch (Exception $e) {
+            error_log('[login.php] Login error: ' . $e->getMessage());
             $error = 'Terjadi kesalahan sistem. Silakan coba lagi.';
         }
     }
