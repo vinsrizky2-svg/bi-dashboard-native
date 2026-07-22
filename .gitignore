@@ -1,0 +1,33 @@
+# =====================================================================
+# Dependency (jangan di-commit — cukup composer.json & composer.lock,
+# orang lain tinggal `composer install` untuk generate ulang vendor/)
+# =====================================================================
+/vendor/
+
+# =====================================================================
+# Environment & kredensial — JANGAN PERNAH di-commit
+# (kredensial database, API key, dsb. ada di sini via vlucas/phpdotenv)
+# =====================================================================
+.env
+.env.local
+.env.*.local
+
+# =====================================================================
+# Log & file sementara
+# =====================================================================
+*.log
+error_log
+php_error_log
+
+# =====================================================================
+# File OS/editor yang tidak relevan untuk kode
+# =====================================================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# =====================================================================
+# Cache/temporary Composer (opsional, biasanya tidak ada tapi jaga-jaga)
+# =====================================================================
+/composer.phar
