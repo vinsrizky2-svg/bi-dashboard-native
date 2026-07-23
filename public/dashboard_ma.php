@@ -25,5 +25,11 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
+
+// ── Profiling: catat penggunaan memori halaman dashboard ──
+$memUsage = round(memory_get_usage() / 1024, 2);
+$memPeak  = round(memory_get_peak_usage() / 1024, 2);
+error_log("[profiling] dashboard_ma.php — Memory: {$memUsage} KB, Peak: {$memPeak} KB");
+
 include 'layout.php';
 ?>

@@ -115,6 +115,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $users = $db->query('SELECT id,name,email,role,is_active,created_at,last_login FROM users ORDER BY created_at ASC')->fetchAll();
 
+// ── Profiling: catat penggunaan memori setelah query daftar user ──
+$memUsage = round(memory_get_usage() / 1024, 2);
+$memPeak  = round(memory_get_peak_usage() / 1024, 2);
+error_log("[profiling] manage_users.php — Total user: " . count($users) . ", Memory: {$memUsage} KB, Peak: {$memPeak} KB");
+
+
 ob_start();
 ?>
 
